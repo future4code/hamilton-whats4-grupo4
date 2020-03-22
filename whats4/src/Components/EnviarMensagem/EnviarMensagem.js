@@ -1,6 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import styled from 'styled-components'
+import ListaDeMensagens from './ListaDeMensagens/ListaDeMensagens';
 
 const Container = styled.div `
   height: 97vh;
@@ -8,34 +9,27 @@ const Container = styled.div `
   margin: 1vh auto;
   border: 1px solid black;
 `
-const ListaDeMensagens = styled.div `
-  display: flex;
-  flex-direction: column-reverse;
-  height: 95%;
-  border: 1px solid black;
-  border-bottom: none;
-  overflow-y: auto;
-`
+
 
 const ContainerInputs = styled.div `
   display: flex;
   justify-content: flex-end;
-  width: 100%;
-  height: 5%;
+  width: 30vw;
+  height: 5vh;
   border-top: 1px solid black;
 `
 
 const InputRemetente =  styled.input `
-  width: 25%;
+  width: 8vw;
 
 `
 const InputMensagem = styled.input `
-  width: 55%;
-
+  width: 15vw;
 `
 
 const Button = styled.button `
-  width: 20%
+  width: 7vw;
+  font-size: 1vw;
 
 `
 
@@ -46,19 +40,20 @@ class EnviarMensagem extends React.Component {
       this.state = {
           mensagens: [
               {
-                  nome: "", mensagem: ""
+                  nome: "", 
+                  mensagem: "",
               }
           ],
   
           valorInputNome: "",
-          valorInputMensagem: ""
+          valorInputMensagem: "",
       }
   }
 
   adicionaMensagem = () => {
       const novaMensagem = {
           nome: this.state.valorInputNome,
-          mensagem: this.state.valorInputMensagem
+          mensagem: this.state.valorInputMensagem,
       }    
       
       const novasMensagens = [novaMensagem, ...this.state.mensagens]
@@ -83,39 +78,41 @@ class EnviarMensagem extends React.Component {
           }
           else {
             return (
-              <p>
-                <strong>{usuario.nome}</strong> : {usuario.mensagem}
-              </p>
+                <p><strong>{usuario.nome}</strong> : {usuario.mensagem}</p>
             )
           }
       })
-  
 
-      return( 
+
+      return ( 
           <Container>
-          <ListaDeMensagens>
-              {mensagensEnviadas}
-          </ListaDeMensagens>
-          <ContainerInputs>
-          <InputRemetente
-          value = {this.state.valorInputNome}
 
-          onChange= {this.onChangeInputNome}
-
-          placeholder ={"Usuário"}
+          <ListaDeMensagens
+          lista = {mensagensEnviadas}
           />
           
-          <InputMensagem
-          value = {this.state.valorInputMensagem}
+          <ContainerInputs>
+            <InputRemetente
+            value = {this.state.valorInputNome}
 
-          onChange = {this.onChangeInputMensagem}
+            onChange= {this.onChangeInputNome}
 
-          placeholder ={"Mensagem..."}
-          />
+            placeholder ={"Usuário"}
+            />
+            
+            <InputMensagem
+            value = {this.state.valorInputMensagem}
 
-          <Button onClick = {this.adicionaMensagem}>
-          Enviar
-          </Button>
+            onChange = {this.onChangeInputMensagem}
+
+            placeholder ={"Mensagem..."}
+            />
+
+            <Button 
+            onClick = {this.adicionaMensagem}
+            >
+            Enviar
+            </Button>
           </ContainerInputs>
           </Container>
       )
