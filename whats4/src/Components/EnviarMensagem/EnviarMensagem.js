@@ -1,5 +1,4 @@
 import React from 'react';
-import propTypes from 'prop-types';
 import styled from 'styled-components'
 import ListaDeMensagens from './ListaDeMensagens/ListaDeMensagens';
 
@@ -19,12 +18,12 @@ const ContainerInputs = styled.div `
   border-top: 1px solid black;
 `
 
-const InputRemetente =  styled.input `
-  width: 8vw;
+const InputRemetente =  styled.select `
+  width: 6vw;
 
 `
 const InputMensagem = styled.input `
-  width: 15vw;
+  width: 17vw;
 `
 
 const Button = styled.button `
@@ -41,44 +40,100 @@ class EnviarMensagem extends React.Component {
           mensagens: [
               {
                   nome: "", 
-                  mensagem: "",
+                  texto: "",
               }
           ],
   
           valorInputNome: "",
-          valorInputMensagem: "",
+          valorInputTexto: "",
       }
   }
 
   adicionaMensagem = () => {
       const novaMensagem = {
           nome: this.state.valorInputNome,
-          mensagem: this.state.valorInputMensagem,
+          texto: this.state.valorInputTexto,
       }    
       
       const novasMensagens = [novaMensagem, ...this.state.mensagens]
   
       this.setState ({mensagens: novasMensagens})
   }
+
+
+  deletarMensagem = (textoParaDeletar, nomeParaDeletar) => {
+    let mensagemParaDeletar
+
+    for(const elemento of this.state.mensagens){
+      if (elemento.texto === textoParaDeletar && elemento.nome === nomeParaDeletar){
+          mensagemParaDeletar = elemento
+      }
+    }
+
+    const mensagensCopia = [... this.state.mensagens]
+    const indiceParaDeletar = mensagensCopia.indexOf(mensagemParaDeletar)
+    mensagensCopia.splice(indiceParaDeletar, 1)
+
+    this.setState({
+      mensagens: mensagensCopia
+    })
+    console.log(mensagemParaDeletar)
+  }
   
-  onChangeInputNome = event => {
+  onClickInputNome = event => {
       this.setState({valorInputNome: event.target.value})
   }
   
-  onChangeInputMensagem = event => {
-      this.setState({valorInputMensagem: event.target.value})
+  onChangeInputTexto = event => {
+      this.setState({valorInputTexto: event.target.value})
   }
   
   render() {
 
-      const mensagensEnviadas = this.state.mensagens.map(usuario => {
-          if(usuario.nome === "" || usuario.mensagem === "")
+      const pStyleVoce = {
+        direction:"rtl",
+        alignSelf: "flex-end",
+        backgroundColor: "#b1dced",
+        marginRight: "10px",
+        borderRadius: "8px",
+        width: "30%",
+        paddingRight: "8px",
+        paddingTop: "8px",
+      }
+
+      const pStyle = {
+        backgroundColor: "#b1dced",
+        marginLeft: "10px",
+        borderRadius: "8px",
+        width: "30%",
+        paddingLeft: "8px",
+        paddingTop: "8px",
+      }
+
+
+      const mensagensEnviadas = this.state.mensagens.map((usuario, index) => {
+          if(usuario.nome === "" || usuario.texto === "")
           {
             return 
-          }
-          else {
+          } else if (usuario.nome === "Você") {
+            return(
+            <p
+            style={pStyleVoce}
+            key={index}
+            onDoubleClick={() => {this.deletarMensagem( usuario.texto, usuario.nome )}}
+            >
+              <strong>{usuario.nome}</strong> <p>{usuario.texto}</p> 
+            </p>
+            )
+          } else {
             return (
-                <p><strong>{usuario.nome}</strong> : {usuario.mensagem}</p>
+                <p
+                style={pStyle}
+                key={index}
+                onDoubleClick={() => {this.deletarMensagem( usuario.texto, usuario.nome )}}
+                >
+              <strong>{usuario.nome}</strong> <p>{usuario.texto}</p> 
+                </p>
             )
           }
       })
@@ -94,16 +149,23 @@ class EnviarMensagem extends React.Component {
           <ContainerInputs>
             <InputRemetente
             value = {this.state.valorInputNome}
+            onClick = {this.onClickInputNome}
+            required
+            >
+              <option value="-"> - </option>
+              <option value="Você"> Você </option>
+              <option value="Ronilda"> Ronilda </option>
+              <option value="Rafael"> Rafael  </option>
+              <option value="Joelma"> Joelma </option>
+              <option value="Lindoval"> Lindoval </option>
+              <option value="Railton"> Railton </option>
 
-            onChange= {this.onChangeInputNome}
-
-            placeholder ={"Usuário"}
-            />
+            </InputRemetente>
             
             <InputMensagem
-            value = {this.state.valorInputMensagem}
+            value = {this.state.valorInputTexto}
 
-            onChange = {this.onChangeInputMensagem}
+            onChange = {this.onChangeInputTexto}
 
             placeholder ={"Mensagem..."}
             />
