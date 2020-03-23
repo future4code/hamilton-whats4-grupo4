@@ -9,7 +9,7 @@ const Container = styled.div `
   height: 92vh;
   border: 1px solid black;
   border-bottom: none;
-  overflow-y: scroll;
+  overflow-x: scroll;
 `
 
 

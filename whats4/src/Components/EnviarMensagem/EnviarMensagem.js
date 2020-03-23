@@ -91,12 +91,13 @@ class EnviarMensagem extends React.Component {
   render() {
 
       const pStyleVoce = {
-        direction:"rtl",
-        alignSelf: "flex-end",
+        direction:"",
         backgroundColor: "#b1dced",
         marginRight: "10px",
+        marginLeft: "63%",
+        marginTop: "1vw",
         borderRadius: "8px",
-        width: "30%",
+        width: "35%",
         paddingRight: "8px",
         paddingTop: "8px",
       }
@@ -104,10 +105,16 @@ class EnviarMensagem extends React.Component {
       const pStyle = {
         backgroundColor: "#b1dced",
         marginLeft: "10px",
+        marginTop: "1vw",
         borderRadius: "8px",
-        width: "30%",
+        width: "35%",
         paddingLeft: "8px",
         paddingTop: "8px",
+      }
+
+      const pTexto = {
+        width: "98%",
+        wordBreak:"break-all"
       }
 
 
@@ -117,23 +124,23 @@ class EnviarMensagem extends React.Component {
             return 
           } else if (usuario.nome === "Você") {
             return(
-            <p
+            <div
             style={pStyleVoce}
             key={index}
             onDoubleClick={() => {this.deletarMensagem( usuario.texto, usuario.nome )}}
             >
-              <strong>{usuario.nome}</strong> <p>{usuario.texto}</p> 
-            </p>
+              <strong>{usuario.nome}</strong> <p style={pTexto}>{usuario.texto}</p> 
+            </div>
             )
           } else {
             return (
-                <p
+                <div
                 style={pStyle}
                 key={index}
                 onDoubleClick={() => {this.deletarMensagem( usuario.texto, usuario.nome )}}
                 >
-              <strong>{usuario.nome}</strong> <p>{usuario.texto}</p> 
-                </p>
+              <strong>{usuario.nome}</strong> <p style={pTexto}>{usuario.texto}</p> 
+                </div>
             )
           }
       })
